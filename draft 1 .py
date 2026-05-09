@@ -1,3 +1,4 @@
+#timer logic
 import time
 class FocusTimer:
     def __init__ (self,min):
@@ -15,7 +16,7 @@ class FocusTimer:
         
         self.is_running = False
         print("Time's up! Great job focusing.")
-
+#asking user for the activity they wish to do
 class ActivityChoice:
     def __init__ (self,activity_choice):
         self.activity_choice = activity_choice
