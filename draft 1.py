@@ -11,7 +11,7 @@ print(f"{min:02d}:{sec:02d}")
 
 #trail 3 changing countdown 
 #total seconds
-time_left = 1500 
+time_left = 10 
 for i in range(time_left):
     #recalculate min/sec from the total time left
     mins, secs = divmod(time_left, 60)
@@ -19,3 +19,4 @@ for i in range(time_left):
     #wait and then subtract from the total
     time.sleep(1)
     time_left -= 1 
+print("00:00")
