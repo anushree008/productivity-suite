@@ -16,6 +16,47 @@ class FocusTimer:
         
         self.is_running = False
         print("Time's up! Great job focusing.")
+#productivity logic
+class ProductivityManager:
+    def __init__(self):
+        self.tasks = []
+
+    def run_menu(self):
+        while True:
+            print("\n--- Productivity Menu ---")
+            choice = int(input("What do you wish to do?\n1. Add new task\n2. Remove existing task\n3. View existing tasks\n4. Back to main menu\n\nChoice: "))
+            if choice == 1:
+                self.add_task()
+            elif choice == 2:
+                self.remove_task()
+            elif choice == 3:
+                self.view_tasks()
+            elif choice == 4:
+                break 
+            else:
+                print("Error: Please enter a valid number!")
+
+    def add_task(self):
+        task_name = input("Task name:\n")
+        task_type = input("Category name:\n")
+        task_difficulty = int(input("Task difficulty (1-5):\n"))
+        tasks_dictonary = {
+            "Name" : task_name,
+            "Category" : task_type,
+            "Difficulty" :task_difficulty
+        }
+        tasks.append(tasks_dictonary)
+
+    def remove_task(self):
+        for index, task in enumerate(tasks):
+            print(f"{index}: {task['Name']}")
+        removing_choice = int(input("Enter the number of the task to remove: "))
+        tasks.pop(removing_choice)
+        print("Task removed.")
+
+    def view_tasks(self):
+        print(tasks)
+
 #asking user for the activity they wish to do
 class ActivityChoice:
     def __init__ (self,activity_choice):
