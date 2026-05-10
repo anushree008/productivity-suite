@@ -1,5 +1,6 @@
 #defining tasks
 tasks = []
+
 #getting tasks
 task_name = input("Task name:\n")
 task_type = input("Catogory name:\n")
