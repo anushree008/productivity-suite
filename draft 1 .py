@@ -47,8 +47,8 @@ class ProductivityManager:
         self.tasks.append(tasks_dictionary)
 
     def remove_task(self):
-        for index, task in enumerate(self.tasks):
-            print(f"{index}: {task['Name']}")
+        for i, task in enumerate(self.tasks):
+            print(f"{i}: {task['Name']}")
         removing_choice = int(input("Enter the number of the task to remove: "))
         self.tasks.pop(removing_choice)
         print("Task removed.")
