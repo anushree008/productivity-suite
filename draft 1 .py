@@ -67,7 +67,8 @@ class ActivityChoice:
             my_timer = FocusTimer(user_choice)
             my_timer.start_countdown()
         elif self.activity_choice == "productivity":
-            print("testing")
+            manager = ProductivityManager()
+            manager.run_menu()
         else:
             print("testing")
 
