@@ -14,22 +14,24 @@ while True:
         else:
             break
     elif budgeting_choice == 2:
-        budget_removing_choice = int(input())
-        for i, expense in enumerate(Expense):
-            print(f"Index {i}: {expense}")
-        removing_choice = int(input("Enter the index of the expense to remove: "))
-        Expense.pop(removing_choice)
-        print("Expense removed.")
-
-    elif budgeting_choice == 4:
-        for i, income in enumerate(Income):
-            print(f"Index {i}: {income}")
-        removing_choice = int(input("Enter the index of the income to remove: "))
-        Income.pop(removing_choice)
-        print("Income removed.")
-    elif budgeting_choice == 5:
+        budget_removing_choice = int(input("What would you like to remove?\n1. Income\n2. Expense\n3. Back to main menu\n\nChoice: "))
+        if addition_choice == 1:
+            for i, income in enumerate(Income):
+                print(f"Index {i}: {income}")
+            income_removing_choice = int(input("Enter the index of the income to remove: "))
+            Income.pop(income_removing_choice)
+            print("Income removed.")
+        elif addition_choice == 2:
+            for i, expense in enumerate(Expense):
+                print(f"Index {i}: {expense}")
+            expense_removing_choice = int(input("Enter the index of the expense to remove: "))
+            Expense.pop(expense_removing_choice)
+            print("Expense removed.")
+        else:
+            break
+    elif budgeting_choice == 3:
         print("On the way")
-    elif budgeting_choice == 6:
+    elif budgeting_choice == 4:
         break
     else:
         print("Error: Please enter a valid choice!")
