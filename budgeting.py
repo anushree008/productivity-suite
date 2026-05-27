@@ -1,6 +1,7 @@
 import datetime
 Income = []
 Expense = []
+total_income = 0
 #keeping the loop running
 while True:
     print("--- Budgeting Menu ---\n")
@@ -56,8 +57,8 @@ while True:
     elif budgeting_choice == 3:
         view_choice = int(input("What do you wish to view?\n1. History\n2. Calender\n3. Back to main menu\n\nChoice: "))
         if view_choice == 1:
-            for i in range (len(Income)):
-                total_income += (Income["Amount"])
+            for i in Income:
+                total_income += i["Amount"]
         elif view_choice == 2:
             print("On the way")
         elif view_choice == 3:
