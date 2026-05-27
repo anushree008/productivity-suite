@@ -1,12 +1,15 @@
 import datetime
 Income = []
 Expense = []
+#keeping the loop running
 while True:
     print("--- Budgeting Menu ---\n")
     budgeting_choice = int(input("What do you wish to do?\n1. Add new Income/Expene\n2. Remove existing Income/Expense\n3. View\n4. Back to main menu\n\nChoice: "))
     if budgeting_choice == 1:
+        #adding values
         addition_choice = int(input("What would you like to add?\n1. Income\n2. Expense\n3. Back to main menu\n\nChoice: "))
         if addition_choice == 1:
+            #dictonary for income to save multiple values in a single list
             income_type = input("Enter income type:\n")
             income_value = int(input("Enter amount of income:\n"))
             income_date = datetime(input("Enter the date in the format (dd:MM:yy):\n"))
@@ -16,8 +19,9 @@ while True:
                 "Date" : income_date
             }
             Income.append(income_dictonary)
-            print("New expense is added!")
+            print("New income is added!")
         elif addition_choice == 2:
+            #dictonary for expense to save multiple values in a single list
             expense_type = input("Enter expense type:\n")
             expense_value = int(input("Enter the amount of expense:\n"))
             expense_date = datetime(input("Enter the date in the format (dd:MM:yy):\n"))
@@ -26,6 +30,8 @@ while True:
                 "Amount" : expense_value,
                 "Date" : expense_date
             }
+            Expense.append(expense_dictonary)
+            print("New expense is added!")
         else:
             break
     elif budgeting_choice == 2:
