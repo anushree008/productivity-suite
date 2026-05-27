@@ -20,7 +20,12 @@ while True:
         elif addition_choice == 2:
             expense_type = input("Enter expense type:\n")
             expense_value = int(input("Enter the amount of expense:\n"))
-
+            expense_date = datetime(input("Enter the date in the format (dd:MM:yy):\n"))
+            expense_dictonary = {
+                "Type" : expense_type,
+                "Amount" : expense_value,
+                "Date" : expense_date
+            }
         else:
             break
     elif budgeting_choice == 2:
