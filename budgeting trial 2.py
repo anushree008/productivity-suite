@@ -12,7 +12,7 @@ while True:
                 case 1:
                     income_type = input("Enter income type:\n")
                     income_value = float(input("Enter amount of income:\n"))
-                    income_date = datetime.datetime.strptime(input("Enter the date in the format (dd:MM:yy):\n","%d:%m:%y"))
+                    income_date = datetime.datetime.strptime(input("Enter the date in the format (dd:MM:yy):\n"),"%d:%m:%y")
                     income_dictonary  = {
                         "Type" : income_type,
                         "Amount" : income_value,
@@ -23,7 +23,7 @@ while True:
                 case 2:
                     expense_type = input("Enter expense type:\n")
                     expense_value = float(input("Enter the amount of expense:\n"))
-                    expense_date = datetime.datetime.strptime(input("Enter the date in the format (dd:MM:yy):\n","%d:%m:%y"))
+                    expense_date = datetime.datetime.strptime(input("Enter the date in the format (dd:MM:yy):\n"),"%d:%m:%y")
                     expense_dictonary = {
                         "Type" : expense_type,
                         "Amount" : expense_value,
