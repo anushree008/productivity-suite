@@ -41,9 +41,11 @@ while True:
                     Budget.append(budget_dictonary)
                     print("The montly budget is set!")
                 case 4:
-                    break
+                    go_back = True
                 case _:
                     print("Error: Please enter a valid choice!")
+            if go_back == True:
+                continue
         case 2:
             budget_removing_choice = int(input("What would you like to remove?\n1. Income\n2. Expense\n3. Back to main menu\n\nChoice: "))
             match budget_removing_choice:
@@ -61,9 +63,11 @@ while True:
                     Expense.pop(expense_removing_choice)
                     print("Expense removed.")
                 case 3:
-                    break
+                    go_back = True
                 case _:
                     print("Error: Please enter a valid choice!")
+            if go_back == False:
+                continue
         case 3:
             view_choice = int(input("What do you wish to view?\n1. History\n2. Calender\n3. Back to main menu\n\nChoice: "))
             match view_choice:
@@ -93,16 +97,22 @@ while True:
                             for i, budget in enumerate(Budget):
                                 print(f"{i}: {budget}")
                         case 5:
-                            break
+                            go_back = False
                         case _:
                             print("Error: Please enter a valid choice!")
+                    if go_back == False:
+                        continue
                 case 2:
                     print("Onthe way!")
                 case 3:
-                    break
+                    go_back = False
                 case _:
                     print("Error: Please enter a valid choice!")
+            if go_back == False:
+                continue
         case 4:
-            break
+            go_back = False
         case _:
             print("Error: Please enter a valid choice!")
+    if go_back == False:
+        continue
