@@ -2,9 +2,6 @@ import datetime
 Income = []
 Expense = []
 Budget = []
-total_income = 0
-total_exppense = 0
-total_budget = 0
 while True:
     print("--- Budgeting Menu ---")
     budgeting_choice = int(input("What do you wish to do?\n1. Add new Income/Expense/Monthly budegt\n2. Remove existing Income/Expense/Budget\n3. View\n4. Back to main menu\n\nChoice: "))
@@ -71,6 +68,9 @@ while True:
             view_choice = int(input("What do you wish to view?\n1. History\n2. Calender\n3. Back to main menu\n\nChoice: "))
             match view_choice:
                 case 1:
+                    total_income = 0
+                    total_exppense = 0
+                    total_budget = 0
                     for i in Income:
                         total_income += i["Amount"]
                     for i in Expense:
