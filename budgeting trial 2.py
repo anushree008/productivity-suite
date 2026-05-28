@@ -12,7 +12,7 @@ while True:
                 case 1:
                     income_type = input("Enter income type:\n")
                     income_value = float(input("Enter amount of income:\n"))
-                    income_date = datetime.datetime.strptime(input("Enter the date in the format (dd:MM:yy):\n"))
+                    income_date = datetime.datetime.strptime(input("Enter the date in the format (dd:MM:yy):\n","%d:%m:%y"))
                     income_dictonary  = {
                         "Type" : income_type,
                         "Amount" : income_value,
@@ -23,7 +23,7 @@ while True:
                 case 2:
                     expense_type = input("Enter expense type:\n")
                     expense_value = float(input("Enter the amount of expense:\n"))
-                    expense_date = datetime(input("Enter the date in the format (dd:MM:yy):\n"))
+                    expense_date = datetime(input("Enter the date in the format (dd:MM:yy):\n","%d:%m:%y"))
                     expense_dictonary = {
                         "Type" : expense_type,
                         "Amount" : expense_value,
@@ -62,7 +62,7 @@ while True:
                     print("Expense removed.")
                 case 3:
                     break
-                case 4:
+                case _:
                     print("Error: Please enter a valid choice!")
         case 3:
             view_choice = int(input("What do you wish to view?\n1. History\n2. Calender\n3. Back to main menu\n\nChoice: "))
