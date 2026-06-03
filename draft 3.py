@@ -1,7 +1,10 @@
 import time
+import datetime
+
+#focus logic
 class FocusTimer:
-    def __init__ (self,min):
-        self.time_left =  min * 60
+    def __init__(self, min):
+        self.time_left = min * 60
         self.is_running = False
 
     def start_countdown(self):
@@ -11,9 +14,9 @@ class FocusTimer:
             print(f"Time remaining: {min:02d}:{sec:02d}")
             time.sleep(1)
             self.time_left -= 1
-        
         self.is_running = False
         print("Time's up! Great job focusing.")
+
 #productivity logic
 class ProductivityManager:
     def __init__(self):
@@ -23,55 +26,174 @@ class ProductivityManager:
         while True:
             print("\n--- Productivity Menu ---\n")
             productivity_choice = int(input("What do you wish to do?\n1. Add new task\n2. Remove existing task\n3. View existing tasks\n4. Back to main menu\n\nChoice: "))
-            if productivity_choice == 1:
-                self.add_task()
-            elif productivity_choice == 2:
-                self.remove_task()
-            elif productivity_choice == 3:
-                self.view_tasks()
-            elif productivity_choice == 4:
-                break 
-            else:
-                print("Error: Please enter a valid number!")
+            match productivity_choice:
+                case 1:
+                    self.add_task()
+                case 2:
+                    self.remove_task()
+                case 3:
+                    self.view_tasks()
+                case 4:
+                    break
+                case _:
+                    print("Error: Please enter a valid number!")
 
     def add_task(self):
         task_name = input("Task name:\n")
         task_type = input("Category name:\n")
         task_difficulty = int(input("Task difficulty (1-5):\n"))
+        while not 1 <= task_difficulty <= 5:
+            print("Error please enter a valid number!")
+            task_difficulty = int(input("Task difficulty (1-5):\n"))
         tasks_dictionary = {
-            "Name" : task_name,
-            "Category" : task_type,
-            "Difficulty" :task_difficulty
+            "Name": task_name,
+            "Category": task_type,
+            "Difficulty": task_difficulty
         }
         self.tasks.append(tasks_dictionary)
+        print("Saved.")
 
     def remove_task(self):
+        if not self.tasks:
+            print("No tasks to remove.")
+            return
         for i, task in enumerate(self.tasks):
             print(f"{i}: {task['Name']}")
         task_removing_choice = int(input("Enter the number of the task to remove: "))
-        self.tasks.pop(task_removing_choice)
-        print("Task removed.")
+        if 0 <= task_removing_choice < len(self.tasks):
+            self.tasks.pop(task_removing_choice)
+            print("Task removed.")
+        else:
+            print("Error: Please enter a valid number!")
 
     def view_tasks(self):
-        print(self.tasks)
-#asking user for the activity they wish to do
+        if not self.tasks:
+            print("No tasks yet.")
+        else:
+            for i, task in enumerate(self.tasks):
+                print(f"{i}: {task['Name']} | Category: {task['Category']} | Difficulty: {task['Difficulty']}")
+
+#budget logic
+class BudgetManager:
+    def __init__(self):
+        self.income = []
+        self.expense = []
+        self.budget = []
+
+    def run_menu(self):
+        while True:
+            print("\n--- Budgeting Menu ---")
+            budgeting_choice = int(input("What do you wish to do?\n1. Add new Income/Expense/Monthly budget\n2. Remove existing Income/Expense/Budget\n3. View\n4. Back to main menu\n\nChoice: "))
+            match budgeting_choice:
+                case 1:
+                    self.add()
+                case 2:
+                    self.remove()
+                case 3:
+                    self.view()
+                case 4:
+                    break
+                case _:
+                    print("Error: Please enter a valid choice!")
+
+    def add(self):
+        addition_choice = int(input("What would you like to add?\n1. Income\n2. Expense\n3. Monthly budget\n4. Back\n\nChoice: "))
+        match addition_choice:
+            case 1:
+                income_type = input("Enter income type:\n")
+                income_value = float(input("Enter amount of income:\n"))
+                income_date = datetime.datetime.strptime(input("Enter the date (dd:mm:yy):\n"), "%d:%m:%y")
+                self.income.append({"Type": income_type, "Amount": income_value, "Date": income_date})
+                print("New income added!")
+            case 2:
+                expense_type = input("Enter expense type:\n")
+                expense_value = float(input("Enter the amount of expense:\n"))
+                expense_date = datetime.datetime.strptime(input("Enter the date (dd:mm:yy):\n"), "%d:%m:%y")
+                self.expense.append({"Type": expense_type, "Amount": expense_value, "Date": expense_date})
+                print("New expense added!")
+            case 3:
+                budget_type = input("Enter budget type:\n")
+                budget_amount = float(input("Enter the monthly budget:\n"))
+                self.budget.append({"Type": budget_type, "Amount": budget_amount})
+                print("Monthly budget set!")
+            case 4:
+                return
+            case _:
+                print("Error: Please enter a valid choice!")
+
+    def remove(self):
+        budget_removing_choice = int(input("What would you like to remove?\n1. Income\n2. Expense\n3. Back\n\nChoice: "))
+        match budget_removing_choice:
+            case 1:
+                if not self.income:
+                    print("No income to remove.")
+                    return
+                for i, income in enumerate(self.income):
+                    print(f"{i}: {income['Type']} | {income['Amount']}")
+                income_removing_choice = int(input("Enter the index to remove: "))
+                if 0 <= income_removing_choice < len(self.income):
+                    self.income.pop(income_removing_choice)
+                    print("Income removed.")
+                else:
+                    print("Error: Please enter a valid number!")
+            case 2:
+                if not self.expense:
+                    print("No expenses to remove.")
+                    return
+                for i, expense in enumerate(self.expense):
+                    print(f"{i}: {expense['Type']} | {expense['Amount']}")
+                expense_removing_choice = int(input("Enter the index to remove: "))
+                if 0 <= expense_removing_choice < len(self.expense):
+                    self.expense.pop(expense_removing_choice)
+                    print("Expense removed.")
+                else:
+                    print("Error: Please enter a valid number!")
+            case 3:
+                return
+            case _:
+                print("Error: Please enter a valid choice!")
+
+    def view(self):
+        view_choice = int(input("What do you wish to view?\n1. History\n2. Back\n\nChoice: "))
+        match view_choice:
+            case 1:
+                total_income = sum(i["Amount"] for i in self.income)
+                total_expense = sum(i["Amount"] for i in self.expense)
+                total_budget = sum(i["Amount"] for i in self.budget)
+                print(f"\nTotal income: {total_income}")
+                print(f"Total expenses: {total_expense}")
+                if total_budget > 0:
+                    if total_expense > total_budget:
+                        print(f"Budget exceeded by {total_expense - total_budget}.")
+                    else:
+                        print(f"Within budget by {total_budget - total_expense}.")
+                print(f"\nIncome: {self.income}")
+                print(f"Expenses: {self.expense}")
+            case 2:
+                return
+            case _:
+                print("Error: Please enter a valid choice!")
+
+#main menu
 def main():
     while True:
-        print("1. Timer\n2. Tasks\n3. Budget\n4. Quit")
+        print("\n1. Timer\n2. Tasks\n3. Budget\n4. Quit")
         activity_choice = int(input("Choice: "))
-        if activity_choice == 1:
-            print("\n--- Timer Menu ---\n")
-            timer = FocusTimer(int(input("Enter the number of minutes for the timer: ")))
-            timer.start_countdown()
-        elif activity_choice == 2:
-            productivity_manager = ProductivityManager()
-            productivity_manager.run_menu()
-        elif activity_choice == 3:
-            print("Budget feature coming soon!")
-        elif activity_choice == 4:
-            print("Goodbye!")
-            break
-        else:
-            print("Error: Please enter a valid choice!")
+        match activity_choice:
+            case 1:
+                print("\n--- Timer Menu ---\n")
+                timer = FocusTimer(int(input("Enter the number of minutes for the timer: ")))
+                timer.start_countdown()
+            case 2:
+                productivity_manager = ProductivityManager()
+                productivity_manager.run_menu()
+            case 3:
+                budget_manager = BudgetManager()
+                budget_manager.run_menu()
+            case 4:
+                print("Goodbye!")
+                break
+            case _:
+                print("Error: Please enter a valid choice!")
 
 main()
