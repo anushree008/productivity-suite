@@ -12,3 +12,5 @@ Calendar.geometry("400x300")
 
 button = customtkinter.CTkButton(Calendar, text="Click me")
 button.pack()
+
+Calendar.mainloop()
