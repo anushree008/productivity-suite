@@ -3,18 +3,58 @@ import datetime
 import calendar
 import customtkinter
 
-#calender logic
-def open_calendar():
+#calendar logic
+def open_calendar(productivity_manager, budget_manager, focus_sessions):
     Calendar = customtkinter.CTk()
-    Calendar.title("Calender")
-    Calendar.geometry("311x299")
-    current_month = 6
-    current_year = 2026
+    Calendar.title("Calendar")
+    Calendar.geometry("311x399")
+    current_month = datetime.date.today().month
+    current_year = datetime.date.today().year
     calendar_frame = customtkinter.CTkFrame(Calendar)
     calendar_frame.grid(row=2, column=0, columnspan=7)
-    def update_calendar():
-        for widget in calendar_frame.winfo_children():
-            widget.destroy()
+
+    def open_day(day):
+        day_window = customtkinter.CTkToplevel(Calendar)
+        day_window.title(f"{day} {calendar.month_name[current_month]} {current_year}")
+        day_window.geometry("400x500")
+        selected_date = datetime.date(current_year, current_month, day)
+
+        customtkinter.CTkLabel(day_window, text=f"{day} {calendar.month_name[current_month]} {current_year}", font=("Arial", 16)).pack(pady=10)
+
+        # focus sessions
+        customtkinter.CTkLabel(day_window, text="Focus Sessions:", font=("Arial", 14)).pack(anchor="w", padx=10)
+        day_sessions = [s for s in focus_sessions if s["Date"] == selected_date]
+        if day_sessions:
+            for s in day_sessions:
+                customtkinter.CTkLabel(day_window, text=f"  {s['Minutes']} minutes").pack(anchor="w", padx=20)
+        else:
+            customtkinter.CTkLabel(day_window, text="  No focus sessions.").pack(anchor="w", padx=20)
+
+        # tasks
+        customtkinter.CTkLabel(day_window, text="Tasks:", font=("Arial", 14)).pack(anchor="w", padx=10, pady=(10,0))
+        if productivity_manager.tasks:
+            for task in productivity_manager.tasks:
+                customtkinter.CTkLabel(day_window, text=f"  {task['Name']} | {task['Category']} | Difficulty: {task['Difficulty']}").pack(anchor="w", padx=20)
+        else:
+            customtkinter.CTkLabel(day_window, text="  No tasks.").pack(anchor="w", padx=20)
+
+        # income
+        customtkinter.CTkLabel(day_window, text="Income:", font=("Arial", 14)).pack(anchor="w", padx=10, pady=(10,0))
+        day_income = [i for i in budget_manager.income if i["Date"].date() == selected_date]
+        if day_income:
+            for i in day_income:
+                customtkinter.CTkLabel(day_window, text=f"  {i['Type']} | {i['Amount']}").pack(anchor="w", padx=20)
+        else:
+            customtkinter.CTkLabel(day_window, text="  No income.").pack(anchor="w", padx=20)
+
+        # expenses
+        customtkinter.CTkLabel(day_window, text="Expenses:", font=("Arial", 14)).pack(anchor="w", padx=10, pady=(10,0))
+        day_expense = [e for e in budget_manager.expense if e["Date"].date() == selected_date]
+        if day_expense:
+            for e in day_expense:
+                customtkinter.CTkLabel(day_window, text=f"  {e['Type']} | {e['Amount']}").pack(anchor="w", padx=20)
+        else:
+            customtkinter.CTkLabel(day_window, text="  No expenses.").pack(anchor="w", padx=20)
 
     def prev_month():
         nonlocal current_month, current_year
@@ -31,12 +71,14 @@ def open_calendar():
             current_month = 1
             current_year += 1
         update_calendar()
+
     prev_button = customtkinter.CTkButton(Calendar, text="<", width=30, command=prev_month)
     prev_button.grid(row=0, column=0)
     next_button = customtkinter.CTkButton(Calendar, text=">", width=30, command=next_month)
     next_button.grid(row=0, column=6)
-    month_label = customtkinter.CTkLabel(Calendar, text="June 2026", font=("Arial", 20))
+    month_label = customtkinter.CTkLabel(Calendar, text="", font=("Arial", 20))
     month_label.grid(row=0, column=0, columnspan=7, pady=10)
+
     def update_calendar():
         for widget in calendar_frame.winfo_children():
             widget.destroy()
@@ -50,7 +92,9 @@ def open_calendar():
                 if day == 0:
                     customtkinter.CTkLabel(calendar_frame, text="").grid(row=row_num+1, column=column_num)
                 else:
-                    customtkinter.CTkButton(calendar_frame, text=str(day), width=40, height=40).grid(row=row_num+1, column=column_num, padx=2, pady=2)
+                    customtkinter.CTkButton(calendar_frame, text=str(day), width=40, height=40,
+                        command=lambda d=day: open_day(d)).grid(row=row_num+1, column=column_num, padx=2, pady=2)
+
     update_calendar()
     Calendar.mainloop()
 
@@ -58,6 +102,7 @@ def open_calendar():
 class FocusTimer:
     def __init__(self, min):
         self.time_left = min * 60
+        self.minutes = min
         self.is_running = False
 
     def start_countdown(self):
@@ -229,22 +274,29 @@ class BudgetManager:
 
 #main menu
 def main():
+    productivity_manager = ProductivityManager()
+    budget_manager = BudgetManager()
+    focus_sessions = []
+
     while True:
-        print("\n1. Timer\n2. Tasks\n3. Budget\n4. Quit")
+        print("\n1. Timer\n2. Tasks\n3. Budget\n4. Calendar\n5. Quit")
         activity_choice = int(input("Choice: "))
         match activity_choice:
             case 1:
                 print("\n--- Timer Menu ---\n")
-                timer = FocusTimer(int(input("Enter the number of minutes for the timer: ")))
+                minutes = int(input("Enter the number of minutes for the timer: "))
+                timer = FocusTimer(minutes)
                 timer.start_countdown()
+                focus_sessions.append({
+                    "Date": datetime.date.today(),
+                    "Minutes": minutes
+                })
             case 2:
-                productivity_manager = ProductivityManager()
                 productivity_manager.run_menu()
             case 3:
-                budget_manager = BudgetManager()
                 budget_manager.run_menu()
             case 4:
-                open_calendar()
+                open_calendar(productivity_manager, budget_manager, focus_sessions)
             case 5:
                 print("Goodbye!")
                 break
