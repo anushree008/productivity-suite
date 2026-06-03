@@ -7,7 +7,7 @@ import json
 #making the window
 Calendar = customtkinter.CTk()
 Calendar.title("Calender")
-Calendar.geometry("400x300")
+Calendar.geometry("311x299")
 
 #defining months and year
 current_month = 6
