@@ -7,7 +7,7 @@ import customtkinter
 def open_calendar(productivity_manager, budget_manager, focus_sessions):
     Calendar = customtkinter.CTk()
     Calendar.title("Calendar")
-    Calendar.geometry("311x399")
+    Calendar.geometry("311x300")
     current_month = datetime.date.today().month
     current_year = datetime.date.today().year
     calendar_frame = customtkinter.CTkFrame(Calendar)
