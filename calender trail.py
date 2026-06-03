@@ -13,6 +13,10 @@ Calendar.geometry("400x300")
 current_month = 6
 current_year = 2026
 
+#defing the frame
+calendar_frame = customtkinter.CTkFrame(Calendar)
+calendar_frame.grid(row=2, column=0, columnspan=7)
+
 #defining prev_month and next_month
 def update_calendar():
     # destroy all old day buttons
