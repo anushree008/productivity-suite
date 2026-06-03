@@ -73,3 +73,5 @@ def main():
             break
         else:
             print("Error: Please enter a valid choice!")
+
+main()
