@@ -17,7 +17,7 @@ def open_calendar():
             widget.destroy()
 
     def prev_month():
-        global current_month, current_year
+        nonlocal current_month, current_year
         current_month -= 1
         if current_month == 0:
             current_month = 12
@@ -25,10 +25,10 @@ def open_calendar():
         update_calendar()
 
     def next_month():
-        global current_month, current_year
+        nonlocal current_month, current_year
         current_month += 1
-        if current_month == 0:
-            current_month = 13
+        if current_month == 13:
+            current_month = 1
             current_year += 1
         update_calendar()
     prev_button = customtkinter.CTkButton(Calendar, text="<", width=30, command=prev_month)
