@@ -23,6 +23,13 @@ class App(customtkinter.CTk):
                 self.focus_sessions = data["focus_sessions"]
                 self.points = data["points"]
                 self.last_budget_check_month = data["last_budget_check_month"]
+
+                #converting the dates from string to date format
+                for i in self.income:
+                    i["Date"] = datetime.datetime.strptime(i["Date"], "%d:%m:%y")
+
+                for i in self.expense:
+                    i["Date"] = datetime.datetime.strptime(i["Date"], "%d:%m:%y")
         except:
             self.tasks = []
             self.income = []
