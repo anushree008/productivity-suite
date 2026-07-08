@@ -3,6 +3,7 @@ import datetime
 import calendar
 import customtkinter
 import threading
+import json
 
 class App(customtkinter.CTk):
     # defining the window
@@ -12,13 +13,17 @@ class App(customtkinter.CTk):
         self.geometry("800x600")
 
         # data
-        self.tasks = []
-        self.income = []
-        self.expense = []
-        self.budget = []
-        self.focus_sessions = []
-        self.points = 0
-        self.last_budget_check_month = datetime.date.today().month
+        try:
+            with open("/Users/anushreegovilkar/Documents/SRHIC/UG08/productivity-suite/productivity_data.json", "r") as f:
+                data = json.load(f)
+        except:
+            self.tasks = []
+            self.income = []
+            self.expense = []
+            self.budget = []
+            self.focus_sessions = []
+            self.points = 0
+            self.last_budget_check_month = datetime.date.today().month
 
         # layout
         self.sidebar = customtkinter.CTkFrame(self, width=150)
