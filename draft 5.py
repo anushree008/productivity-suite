@@ -71,7 +71,7 @@ class App(customtkinter.CTk):
             self.last_budget_check_month = today.month
         # check again every hour
         self.after(3600000, self.check_budget_month)
-
+    # ── POINT SYSTEM ─────────────────────────────────────────
     def show_points_popup(self, message):
         popup = customtkinter.CTkToplevel(self)
         popup.title("Points Update")
