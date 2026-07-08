@@ -16,6 +16,13 @@ class App(customtkinter.CTk):
         try:
             with open("/Users/anushreegovilkar/Documents/SRHIC/UG08/productivity-suite/productivity_data.json", "r") as f:
                 data = json.load(f)
+                self.tasks = data["tasks"]
+                self.income = data["income"]
+                self.expense = data["expense"]
+                self.budget = data["budget"]
+                self.focus_sessions = data["focus_sessions"]
+                self.points = data["points"]
+                self.last_budget_check_month = data["last_budget_check_month"]
         except:
             self.tasks = []
             self.income = []
