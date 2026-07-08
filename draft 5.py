@@ -5,9 +5,10 @@ import customtkinter
 import threading
 
 class App(customtkinter.CTk):
+    # defining the window
     def __init__(self):
         super().__init__()
-        self.title("Productivity App")
+        self.title("Productivity Suite")
         self.geometry("800x600")
 
         # data
@@ -40,13 +41,10 @@ class App(customtkinter.CTk):
         self.show_timer()
         self.check_budget_month()
 
+    # closing the window
     def clear_main(self):
         for widget in self.main_frame.winfo_children():
             widget.destroy()
-
-    def add_points(self, amount):
-        self.points += amount
-        self.points_label.configure(text=f"⭐ {self.points}")
 
     # ── BUDGET MONTH CHECK ─────────────────────────────────
     def check_budget_month(self):
@@ -71,7 +69,14 @@ class App(customtkinter.CTk):
             self.last_budget_check_month = today.month
         # check again every hour
         self.after(3600000, self.check_budget_month)
+
     # ── POINT SYSTEM ─────────────────────────────────────────
+    # adding points
+    def add_points(self, amount):
+        self.points += amount
+        self.points_label.configure(text=f"⭐ {self.points}")
+
+    # message window for points 
     def show_points_popup(self, message):
         popup = customtkinter.CTkToplevel(self)
         popup.title("Points Update")
