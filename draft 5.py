@@ -147,7 +147,7 @@ class App(customtkinter.CTk):
         self.timer_running = False
 
         # points: 2 points per 10 mins, only if at least 10 mins
-        earned = (self.timer_minutes // 10) * 2
+        earned = (self.timer_minutes // 10) * 20
         if earned > 0:
             self.add_points(earned)
             self.timer_status.configure(text=f"Time's up! Great job! +{earned} points")
