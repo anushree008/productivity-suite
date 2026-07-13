@@ -145,7 +145,6 @@ class App(customtkinter.CTk):
             time.sleep(1)
             self.time_left -= 1
         self.timer_running = False
-        self.save_data()
 
         # points: 2 points per 10 mins, only if at least 10 mins
         earned = (self.timer_minutes // 10) * 2
@@ -160,6 +159,7 @@ class App(customtkinter.CTk):
             "Minutes": self.timer_minutes,
             "Points": earned
         })
+        self.save_data()
 
     # ── TASKS ──────────────────────────────────────────────
     def show_tasks(self):
@@ -355,6 +355,7 @@ class App(customtkinter.CTk):
         self.budget_status.configure(text="Expense added!")
         self.clear_budget_inputs()
         self.refresh_budget_list()
+        self.save_data()
 
     def clear_budget_inputs(self):
         self.budget_type_input.delete(0, "end")
@@ -390,6 +391,7 @@ class App(customtkinter.CTk):
     def remove_expense(self, index):
         self.expense.pop(index)
         self.refresh_budget_list()
+        self.save_data()
 
     # ── CALENDAR ───────────────────────────────────────────
     def show_calendar(self):
@@ -508,7 +510,8 @@ class App(customtkinter.CTk):
                 "expense": expense_to_save,
                 "budget": self.budget,
                 "focus_sessions": self.focus_sessions,
-                "points": self.points
+                "points": self.points,
+                "last_budget_check_month": self.last_budget_check_month
             }
             json.dump(data, f)
 app = App()
