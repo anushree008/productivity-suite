@@ -94,6 +94,7 @@ class App(customtkinter.CTk):
     def add_points(self, amount):
         self.points += amount
         self.points_label.configure(text=f"⭐ {self.points}")
+        self.save_data()
 
     # message window for points 
     def show_points_popup(self, message):
@@ -144,6 +145,7 @@ class App(customtkinter.CTk):
             time.sleep(1)
             self.time_left -= 1
         self.timer_running = False
+        self.save_data()
 
         # points: 2 points per 10 mins, only if at least 10 mins
         earned = (self.timer_minutes // 10) * 2
@@ -231,6 +233,7 @@ class App(customtkinter.CTk):
         self.task_deadline_input.delete(0, "end")
         self.task_status.configure(text="Task saved!")
         self.refresh_task_list()
+        self.save_data()
 
     def refresh_task_list(self):
         for widget in self.task_list_frame.winfo_children():
@@ -272,10 +275,12 @@ class App(customtkinter.CTk):
         self.add_points(earned)
         self.task_status.configure(text=msg)
         self.refresh_task_list()
+        self.save_data()
 
     def remove_task(self, index):
         self.tasks.pop(index)
         self.refresh_task_list()
+        self.save_data()
 
     # ── BUDGET ─────────────────────────────────────────────
     def show_budget(self):
@@ -324,6 +329,7 @@ class App(customtkinter.CTk):
         self.monthly_budget_input.delete(0, "end")
         self.budget_status.configure(text=f"Monthly budget set to {amount}!")
         self.refresh_budget_list()
+        self.save_data()
 
     def add_income(self):
         try:
@@ -336,6 +342,7 @@ class App(customtkinter.CTk):
         self.budget_status.configure(text="Income added!")
         self.clear_budget_inputs()
         self.refresh_budget_list()
+        self.save_data()
 
     def add_expense(self):
         try:
@@ -378,6 +385,7 @@ class App(customtkinter.CTk):
     def remove_income(self, index):
         self.income.pop(index)
         self.refresh_budget_list()
+        self.save_data()
 
     def remove_expense(self, index):
         self.expense.pop(index)
@@ -493,11 +501,11 @@ class App(customtkinter.CTk):
                 new_entry_expense = dict(i)
                 new_entry_expense["Date"] = datetime.datetime.strftime(new_entry_expense["Date"], "%d:%m:%y")
                 expense_to_save.append(new_entry_expense)
-                
+
             data = {
                 "tasks": self.tasks,
-                "income": self.income,
-                "expense": self.expense,
+                "income": income_to_save,
+                "expense": expense_to_save,
                 "budget": self.budget,
                 "focus_sessions": self.focus_sessions,
                 "points": self.points
