@@ -12,7 +12,7 @@ class App(customtkinter.CTk):
         self.title("Productivity Suite")
         self.geometry("800x600")
 
-        # data
+        # loading the data
         try:
             with open("/Users/anushreegovilkar/Documents/SRHIC/UG08/productivity-suite/productivity_data.json", "r") as f:
                 data = json.load(f)
@@ -59,7 +59,7 @@ class App(customtkinter.CTk):
 
         self.show_timer()
         self.check_budget_month()
-
+    
     # closing the window
     def clear_main(self):
         for widget in self.main_frame.winfo_children():
@@ -477,5 +477,27 @@ class App(customtkinter.CTk):
         else:
             customtkinter.CTkLabel(scroll, text="  None").pack(anchor="w", padx=10)
 
+    #saving the data
+    def save_data(self):
+        with open("/Users/anushreegovilkar/Documents/SRHIC/UG08/productivity-suite/productivity_data.json", "w") as f:
+            
+            #converting data back to string to save in json file
+            income_to_save = []
+            for i in self.income:
+                new_entry = dict(i)  # makes a copy of the dictionary, not the same one
+                new_entry["Date"] = datetime.datetime.strftime(new_entry["Date"], "%d:%m:%y")
+                income_to_save.append(new_entry)
+                
+            for i in self.expense:
+                i["Date"] = datetime.datetime.strftime(i["Date"], "%d:%m:%y")
+            data = {
+                "tasks": self.tasks,
+                "income": self.income,
+                "expense": self.expense,
+                "budget": self.budget,
+                "focus_sessions": self.focus_sessions,
+                "points": self.points
+            }
+            json.dump(data, f)
 app = App()
 app.mainloop()
