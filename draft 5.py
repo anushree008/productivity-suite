@@ -65,30 +65,6 @@ class App(customtkinter.CTk):
         for widget in self.main_frame.winfo_children():
             widget.destroy()
 
-    # ── BUDGET MONTH CHECK ─────────────────────────────────
-    def check_budget_month(self):
-        today = datetime.date.today()
-        # check if month has changed since last check
-        if today.month != self.last_budget_check_month:
-            # get last month's expenses and budget
-            last_month = self.last_budget_check_month
-            last_year = today.year if today.month != 1 else today.year - 1
-            total_expense = sum(
-                e["Amount"] for e in self.expense
-                if e["Date"].month == last_month and e["Date"].year == last_year
-            )
-            total_budget = sum(b["Amount"] for b in self.budget)
-            if total_budget > 0:
-                if total_expense <= total_budget:
-                    self.add_points(100)
-                    self.show_points_popup("🎉 Stayed within budget last month! +100 points")
-                else:
-                    self.add_points(-50)
-                    self.show_points_popup("❌ Exceeded budget last month! -50 points")
-            self.last_budget_check_month = today.month
-        # check again every hour
-        self.after(3600000, self.check_budget_month)
-
     # ── POINT SYSTEM ─────────────────────────────────────────
     # adding points
     def add_points(self, amount):
@@ -146,7 +122,7 @@ class App(customtkinter.CTk):
             self.time_left -= 1
         self.timer_running = False
 
-        # points: 2 points per 10 mins, only if at least 10 mins
+        # points: 20 points per 10 mins, only if at least 10 mins
         earned = (self.timer_minutes // 10) * 20
         if earned > 0:
             self.add_points(earned)
@@ -392,6 +368,30 @@ class App(customtkinter.CTk):
         self.expense.pop(index)
         self.refresh_budget_list()
         self.save_data()
+
+    
+    def check_budget_month(self):
+        today = datetime.date.today()
+        # check if month has changed since last check
+        if today.month != self.last_budget_check_month:
+            # get last month's expenses and budget
+            last_month = self.last_budget_check_month
+            last_year = today.year if today.month != 1 else today.year - 1
+            total_expense = sum(
+                e["Amount"] for e in self.expense
+                if e["Date"].month == last_month and e["Date"].year == last_year
+            )
+            total_budget = sum(b["Amount"] for b in self.budget)
+            if total_budget > 0:
+                if total_expense <= total_budget:
+                    self.add_points(100)
+                    self.show_points_popup("🎉 Stayed within budget last month! +100 points")
+                else:
+                    self.add_points(-50)
+                    self.show_points_popup("❌ Exceeded budget last month! -50 points")
+            self.last_budget_check_month = today.month
+        # check again every hour
+        self.after(3600000, self.check_budget_month)
 
     # ── CALENDAR ───────────────────────────────────────────
     def show_calendar(self):
