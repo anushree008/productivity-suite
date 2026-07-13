@@ -1,37 +1,39 @@
 # Productivity Suite
-A multi-feature productivity app built in Python, combining a focus timer, task manager, budget tracker, and calendar into one tool — with RPG-style gamification layered on top to make tracking productivity more engaging.
 
+A multi-feature productivity desktop application built in Python. It integrates a focus timer, task manager, budget tracker, and calendar into a single cohesive tool, utilizing gamification elements to make personal organization more engaging.
 
 ## Features
-Focus Timer — countdown timer for focused work sessions, built with time
-Task Manager — add, remove, and view tasks with category and difficulty ratings
-Budget Tracker — log income and expenses, set monthly budgets, and view spending summaries against your budget
-Calendar — month-view calendar built with CustomTkinter, with navigation between months
-RPG Gamification — [add a short description of this once it's finalised, e.g. "earn points/XP for completing tasks based on difficulty"]
 
+* **Focus Timer:** A countdown timer utilizing Python's `time` module to manage focused work sessions.
+* **Task Manager:** Allows users to add, remove, and view tasks, complete with category classification and difficulty ratings.
+* **Budget Tracker:** Logs income and expenses, tracks monthly budgets, and generates spending summaries.
+* **Interactive Calendar:** A month-view calendar interface built with CustomTkinter featuring dynamic month-to-month navigation.
+* **Gamification System:** Features an underlying points economy where users earn points for completing tasks (scaled by difficulty) and lose/receive reduced points for exceeding budget limits.
 
 ## Tech Stack
-Language: Python
-GUI: CustomTkinter
-Libraries: datetime, calendar, json, time
-Data persistence: JSON file storage for tasks, completed tasks, income/expenses, and budgets
+* **Language:** Python 3
+* **GUI Framework:** CustomTkinter
+* **Data Persistence:** JSON file storage (for tasks, financial logs, budgets, and user points)
+* **Core Modules:** `datetime`, `calendar`, `json`, `time`
 
+## Installation & Setup
 
-## How to Run
-Make sure Python 3 is installed
-Install CustomTkinter:
-
+1. **Prerequisites:** Ensure you have Python 3 installed on your system.
+2. **Install Dependencies:** Install the required GUI library via pip:
+   ```
    pip install customtkinter
+   ```
+3. Run the Application: Execute the main script from your terminal:
+   ```
+   python "main.py"
+   ```
 
-Run the main script:
+## Project Status
+Active development.
 
-   python draft 3.py
-
-## Status
-Actively evolving as a personal project.
-
-## What I Learned
-Structuring related features (timer, tasks, budget, calendar) using classes vs. functions depending on whether state needs to persist
-Managing file I/O and JSON for saving/loading data between sessions
-Building GUI layouts with CustomTkinter, including dynamic redrawing of widgets (e.g. calendar view on month change)
-Debugging loop control issues (break vs. continue vs. flag variables) in multi-level menus
+## What I Learned & Key Technical Challenges
+•	Architecture & State Management: Evaluated the trade-offs between class-based and function-based structures to properly manage state persistence across multiple sub-applications.
+•	Data Persistence & Serialization: Managed file I/O operations using nested JSON structures. Handled the serialization and deserialization of datetime objects to strings and back.
+•	Defensive Programming: Implemented deep copies instead of mutating original data structures directly to prevent live data corruption during runtime.
+•	GUI Development: Built dynamic layouts in CustomTkinter, mastering the process of clearing and redrawing widgets dynamically (specifically for the calendar month transitions).
+•	Control Flow Debugging: Solved complex loop control challenges by properly utilizing flags and breaking out of multi-level application menus.
