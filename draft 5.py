@@ -60,7 +60,7 @@ class App(customtkinter.CTk):
 
         # points display in sidebar
         customtkinter.CTkLabel(self.sidebar, text="Points", font=("Arial", 14)).pack(pady=(30, 0))
-        self.points_label = customtkinter.CTkLabel(self.sidebar, text="⭐ 0", font=("Arial", 20))
+        self.points_label = customtkinter.CTkLabel(self.sidebar, text=f"⭐ {self.points}", font=("Arial", 20))
         self.points_label.pack(pady=5)
 
         self.show_timer()
@@ -354,17 +354,19 @@ class App(customtkinter.CTk):
         if not self.income and not self.expense:
             customtkinter.CTkLabel(self.budget_list_frame, text="No entries yet.").pack()
             return
+        #incomes
         for i, item in enumerate(self.income):
             row = customtkinter.CTkFrame(self.budget_list_frame)
             row.pack(fill="x", pady=3)
             customtkinter.CTkLabel(row, text=f"[Income] {item['Type']} | {item['Amount']} | {item['Date'].strftime('%d/%m/%y')}").pack(side="left", padx=10)
             customtkinter.CTkButton(row, text="Remove", width=70, command=lambda i=i: self.remove_income(i)).pack(side="right", padx=5)
+        #expenses
         for i, item in enumerate(self.expense):
             row = customtkinter.CTkFrame(self.budget_list_frame)
             row.pack(fill="x", pady=3)
             customtkinter.CTkLabel(row, text=f"[Expense] {item['Type']} | {item['Amount']} | {item['Date'].strftime('%d/%m/%y')}").pack(side="left", padx=10)
             customtkinter.CTkButton(row, text="Remove", width=70, command=lambda i=i: self.remove_expense(i)).pack(side="right", padx=5)
-
+        
     def remove_income(self, index):
         self.income.pop(index)
         self.refresh_budget_list()
@@ -493,6 +495,12 @@ class App(customtkinter.CTk):
         else:
             customtkinter.CTkLabel(scroll, text="  None").pack(anchor="w", padx=10)
 
+        # summary
+        total_income = sum(i["Amount"] for i in day_income)
+        total_expense = sum(e["Amount"] for e in day_expense)
+        balance = total_income - total_expense
+        customtkinter.CTkLabel(scroll, text=f"Total Income: {total_income} | Total Expenses: {total_expense} | Balance: {balance}", font=("Arial", 14)).pack(anchor="w", pady=(10,0))
+
     #saving the data
     def save_data(self):
         with open("/Users/anushreegovilkar/Documents/SRHIC/UG08/productivity-suite/productivity_data.json", "w") as f:
@@ -516,8 +524,17 @@ class App(customtkinter.CTk):
                 new_entry_expense["Date"] = datetime.datetime.strftime(new_entry_expense["Date"], "%d:%m:%y")
                 expense_to_save.append(new_entry_expense)
 
+            task_to_save = []
+            for i in self.tasks:
+                new_entry_task = dict(i)
+                if new_entry_task["Deadline"] is not None:
+                    new_entry_task["Deadline"] = new_entry_task["Deadline"].strftime("%d:%m:%y")
+                if new_entry_task["Done_date"] is not None:
+                    new_entry_task["Done_date"] = new_entry_task["Done_date"].strftime("%d:%m:%y")
+                task_to_save.append(new_entry_task)
+
             data = {
-                "tasks": self.tasks,
+                "tasks": task_to_save,
                 "income": income_to_save,
                 "expense": expense_to_save,
                 "budget": self.budget,

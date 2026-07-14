@@ -1,1 +1,1 @@
-{"tasks": [], "income": [], "expense": [], "budget": [], "focus_sessions": [{"Date": 
+{"tasks": [{"Name": "math", "Category": "study", "Difficulty": 4, "Deadline": null, "Done": true, "Done_date": "14:07:26"}], "income": [{"Type": "gift", "Amount": 30.0, "Date": "14:07:26"}], "expense": [{"Type": "sweets", "Amount": 15.0, "Date": "14:07:26"}], "budget": [], "focus_sessions": [{"Date": "14:07:26", "Minutes": 10, "Points": 20}], "points": 60, "last_budget_check_month": 7}
