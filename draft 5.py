@@ -4,6 +4,7 @@ import calendar
 import customtkinter
 import threading
 import json
+import os
 
 class App(customtkinter.CTk):
     # defining the window
@@ -13,8 +14,9 @@ class App(customtkinter.CTk):
         self.geometry("800x600")
 
         # loading the data
+        self.DATA_FILE = os.path.join(os.path.dirname(__file__), "productivity_data.json")
         try:
-            with open("/Users/anushreegovilkar/Documents/SRHIC/UG08/productivity-suite/productivity_data.json", "r") as f:
+            with open(self.DATA_FILE, "r") as f:
                 data = json.load(f)
                 self.tasks = data["tasks"]
                 self.income = data["income"]
@@ -503,7 +505,7 @@ class App(customtkinter.CTk):
 
     #saving the data
     def save_data(self):
-        with open("/Users/anushreegovilkar/Documents/SRHIC/UG08/productivity-suite/productivity_data.json", "w") as f:
+        with open(self.DATA_FILE, "w") as f:
             
             #converting data back to string to save in json file
             focus_session_to_save =[]
