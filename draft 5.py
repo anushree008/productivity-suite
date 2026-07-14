@@ -24,13 +24,19 @@ class App(customtkinter.CTk):
                 self.points = data["points"]
                 self.last_budget_check_month = data["last_budget_check_month"]
 
+                #converting the focus sessions format
+                for i in self.focus_sessions:
+                    i["Date"] = datetime.datetime.strptime(i["Date"], "%d:%m:%y").date()
+
                 #converting the dates from string to date format
                 for i in self.income:
                     i["Date"] = datetime.datetime.strptime(i["Date"], "%d:%m:%y")
 
                 for i in self.expense:
                     i["Date"] = datetime.datetime.strptime(i["Date"], "%d:%m:%y")
-        except:
+                    
+        except Exception as e:
+            print(e)
             self.tasks = []
             self.income = []
             self.expense = []
@@ -369,7 +375,7 @@ class App(customtkinter.CTk):
         self.refresh_budget_list()
         self.save_data()
 
-    
+
     def check_budget_month(self):
         today = datetime.date.today()
         # check if month has changed since last check
@@ -492,6 +498,12 @@ class App(customtkinter.CTk):
         with open("/Users/anushreegovilkar/Documents/SRHIC/UG08/productivity-suite/productivity_data.json", "w") as f:
             
             #converting data back to string to save in json file
+            focus_session_to_save =[]
+            for i in self.focus_sessions:
+                new_entry_focus_session = dict(i)
+                new_entry_focus_session["Date"] = datetime.datetime.strftime(new_entry_focus_session["Date"], "%d:%m:%y")
+                focus_session_to_save.append(new_entry_focus_session)
+
             income_to_save = []
             for i in self.income:
                 new_entry_income = dict(i)  # makes a copy of the dictionary, not the same one
@@ -509,7 +521,7 @@ class App(customtkinter.CTk):
                 "income": income_to_save,
                 "expense": expense_to_save,
                 "budget": self.budget,
-                "focus_sessions": self.focus_sessions,
+                "focus_sessions": focus_session_to_save,
                 "points": self.points,
                 "last_budget_check_month": self.last_budget_check_month
             }
