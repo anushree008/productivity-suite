@@ -501,7 +501,7 @@ class App(customtkinter.CTk):
             focus_session_to_save =[]
             for i in self.focus_sessions:
                 new_entry_focus_session = dict(i)
-                new_entry_focus_session["Date"] = datetime.datetime.strftime(new_entry_focus_session["Date"], "%d:%m:%y")
+                new_entry_focus_session["Date"] = new_entry_focus_session["Date"].strftime("%d:%m:%y")
                 focus_session_to_save.append(new_entry_focus_session)
 
             income_to_save = []
