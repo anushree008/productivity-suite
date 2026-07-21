@@ -1,3 +1,4 @@
+import customtkinter
 def show_dashboard(self):
         self.clear_main()
 
