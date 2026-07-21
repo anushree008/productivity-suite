@@ -46,26 +46,12 @@ class App(customtkinter.CTk):
             self.focus_sessions = []
             self.points = 0
             self.last_budget_check_month = datetime.date.today().month
-
+        
         # layout
-        self.sidebar = customtkinter.CTkFrame(self, width=150)
-        self.sidebar.pack(side="left", fill="y", padx=10, pady=10)
         self.main_frame = customtkinter.CTkFrame(self)
         self.main_frame.pack(side="right", fill="both", expand=True, padx=10, pady=10)
 
-        # sidebar buttons
-        customtkinter.CTkLabel(self.sidebar, text="Menu", font=("Arial", 18)).pack(pady=20)
-        customtkinter.CTkButton(self.sidebar, text="Timer", command=self.show_timer).pack(pady=5, padx=10, fill="x")
-        customtkinter.CTkButton(self.sidebar, text="Tasks", command=self.show_tasks).pack(pady=5, padx=10, fill="x")
-        customtkinter.CTkButton(self.sidebar, text="Budget", command=self.show_budget).pack(pady=5, padx=10, fill="x")
-        customtkinter.CTkButton(self.sidebar, text="Calendar", command=self.show_calendar).pack(pady=5, padx=10, fill="x")
-
-        # points display in sidebar
-        customtkinter.CTkLabel(self.sidebar, text="Points", font=("Arial", 14)).pack(pady=(30, 0))
-        self.points_label = customtkinter.CTkLabel(self.sidebar, text=f"⭐ {self.points}", font=("Arial", 20))
-        self.points_label.pack(pady=5)
-
-        self.show_timer()
+        self.show_dashboard()
         self.check_budget_month()
     
     # closing the window
@@ -81,30 +67,33 @@ class App(customtkinter.CTk):
         self.main_frame.grid_columnconfigure(0, weight=1)
         self.main_frame.grid_columnconfigure(1, weight=2)
         self.main_frame.grid_columnconfigure(2, weight=2)
+        self.main_frame.grid_columnconfigure(3, weight=2)
         self.main_frame.grid_rowconfigure(0, weight=1)
         self.main_frame.grid_rowconfigure(1, weight=3)
         self.main_frame.grid_rowconfigure(2, weight=1)
+        self.main_frame.grid_rowconfigure(3, weight=1)
 
-        # row 0: settings, character, stats
-        settings_btn = customtkinter.CTkButton(self.main_frame, text="⚙", width=40, command=None)
+        # row 0: settings
+        settings_btn = customtkinter.CTkButton(self.main_frame, text="⌘", width=30, height=50, command=None)
         settings_btn.grid(row=0, column=0, padx=10, pady=10, sticky="nw")
 
-        character_card = customtkinter.CTkFrame(self.main_frame, corner_radius=15, width=150, height=120)
-        character_card.grid(row=0, column=1, padx=10, pady=10, sticky="nsew")
+        #row 1: character, stats
+        character_card = customtkinter.CTkFrame(self.main_frame, corner_radius=15, width=80, height=200)
+        character_card.grid(row=1, column=1, padx=5, pady=10, sticky="nsew")
 
-        stats_card = customtkinter.CTkFrame(self.main_frame, corner_radius=15, width=150, height=120)
-        stats_card.grid(row=0, column=2, padx=10, pady=10, sticky="nsew")
+        stats_card = customtkinter.CTkFrame(self.main_frame, corner_radius=15, width=80, height=80)
+        stats_card.grid(row=1, column=2, padx=10, pady=10, sticky="nsew")
 
-        # row 1: calendar, map
+        # row 2: calendar, map
         calendar_card = customtkinter.CTkFrame(self.main_frame, corner_radius=15, width=250, height=250)
-        calendar_card.grid(row=1, column=1, padx=10, pady=10, sticky="nsew")
+        calendar_card.grid(row=2, column=1, padx=10, pady=10, sticky="nsew")
 
         map_card = customtkinter.CTkFrame(self.main_frame, corner_radius=15, width=250, height=250)
-        map_card.grid(row=1, column=2, padx=10, pady=10, sticky="nsew")
+        map_card.grid(row=2, column=2, padx=10, pady=10, sticky="nsew")
 
-        # row 2: bottom menu bar
-        menu_bar = customtkinter.CTkFrame(self.main_frame, corner_radius=15)
-        menu_bar.grid(row=2, column=0, columnspan=3, padx=10, pady=10, sticky="ew")
+        # row 3: bottom menu bar
+        menu_bar = customtkinter.CTkFrame(self.main_frame, corner_radius=15,  width=100, height=70)
+        menu_bar.grid(row=3, column=0, columnspan=3, padx=10, pady=10, sticky="ew")
 
     # ── POINT SYSTEM ─────────────────────────────────────────
     # adding points
