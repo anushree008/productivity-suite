@@ -68,32 +68,33 @@ class App(customtkinter.CTk):
         self.main_frame.grid_columnconfigure(1, weight=2)
         self.main_frame.grid_columnconfigure(2, weight=2)
         self.main_frame.grid_columnconfigure(3, weight=2)
+        self.main_frame.grid_columnconfigure(4, weight=2)
         self.main_frame.grid_rowconfigure(0, weight=1)
         self.main_frame.grid_rowconfigure(1, weight=3)
         self.main_frame.grid_rowconfigure(2, weight=1)
         self.main_frame.grid_rowconfigure(3, weight=1)
 
         # row 0: settings
-        settings_btn = customtkinter.CTkButton(self.main_frame, text="⌘", width=30, height=50, command=None)
-        settings_btn.grid(row=0, column=0, padx=10, pady=10, sticky="nw")
+        settings_btn = customtkinter.CTkButton(self.main_frame, text="⌘", width=40, height=50, command=None)
+        settings_btn.grid(row=0, column=0, padx=10, pady=10)
 
         #row 1: character, stats
-        character_card = customtkinter.CTkFrame(self.main_frame, corner_radius=15, width=80, height=200)
-        character_card.grid(row=1, column=1, padx=5, pady=10, sticky="nsew")
+        character_card = customtkinter.CTkFrame(self.main_frame, corner_radius=15, width=80, height=150)
+        character_card.grid(row=1, column=1, padx=5, pady=10)
 
         stats_card = customtkinter.CTkFrame(self.main_frame, corner_radius=15, width=80, height=80)
-        stats_card.grid(row=1, column=2, padx=10, pady=10, sticky="nsew")
+        stats_card.grid(row=0, column=2, rowspan=2, padx=10, pady=10)
 
         # row 2: calendar, map
         calendar_card = customtkinter.CTkFrame(self.main_frame, corner_radius=15, width=250, height=250)
-        calendar_card.grid(row=2, column=1, padx=10, pady=10, sticky="nsew")
+        calendar_card.grid(row=2, column=1, padx=10, pady=10)
 
         map_card = customtkinter.CTkFrame(self.main_frame, corner_radius=15, width=250, height=250)
-        map_card.grid(row=2, column=2, padx=10, pady=10, sticky="nsew")
+        map_card.grid(row=2, column=2, padx=10, pady=10)
 
         # row 3: bottom menu bar
-        menu_bar = customtkinter.CTkFrame(self.main_frame, corner_radius=15,  width=100, height=70)
-        menu_bar.grid(row=3, column=0, columnspan=3, padx=10, pady=10, sticky="ew")
+        menu_bar = customtkinter.CTkFrame(self.main_frame, corner_radius=15,  width=200, height=70)
+        menu_bar.grid(row=3, column=1, columnspan=2, padx=10, pady=10)
 
     # ── POINT SYSTEM ─────────────────────────────────────────
     # adding points
