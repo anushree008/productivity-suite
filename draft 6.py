@@ -5,6 +5,7 @@ import customtkinter
 import threading
 import json
 import os
+from PIL import Image
 
 class App(customtkinter.CTk):
     # defining the window
@@ -51,8 +52,15 @@ class App(customtkinter.CTk):
         self.main_frame = customtkinter.CTkFrame(self)
         self.main_frame.pack(side="right", fill="both", expand=True, padx=10, pady=10)
 
-        self.show_dashboard()
-        self.check_budget_month()
+        # getting icons
+        self.settings_icon = customtkinter.CTkImage(light_image=Image.open(os.path.join(os.path.dirname(__file__), "Icons", "settings.png")), size=(44, 44))            
+        self.home_icon = customtkinter.CTkImage(light_image=Image.open(os.path.join(os.path.dirname(__file__), "Icons", "home.png")), size=(64, 64))
+        self.productivity_icon = customtkinter.CTkImage(light_image=Image.open(os.path.join(os.path.dirname(__file__), "Icons", "productivity.png")), size=(44, 44))
+        self.time_icon = customtkinter.CTkImage(light_image=Image.open(os.path.join(os.path.dirname(__file__), "Icons", "time.png")), size=(44, 44))
+        self.budget_icon = customtkinter.CTkImage(light_image=Image.open(os.path.join(os.path.dirname(__file__), "Icons", "budget.png")), size=(44, 44))
+
+        self.show_dashboard() # display home page on startup
+        self.check_budget_month() # run a monthly budget check
     
     # closing the window
     def clear_main(self):
@@ -75,10 +83,10 @@ class App(customtkinter.CTk):
         self.main_frame.grid_rowconfigure(3, weight=1)
 
         # row 0: settings
-        settings_btn = customtkinter.CTkButton(self.main_frame, text="⌘", width=40, height=50, command=None)
+        settings_btn = customtkinter.CTkButton(self.main_frame, width=40, height=40, image=self.settings_icon, text=None, fg_color="transparent", command=None)
         settings_btn.grid(row=0, column=0, padx=10, pady=10)
 
-        #row 1: character, stats
+        # row 1: character, stats
         character_card = customtkinter.CTkFrame(self.main_frame, corner_radius=15, width=80, height=150)
         character_card.grid(row=1, column=1, padx=5, pady=10)
 
@@ -95,6 +103,15 @@ class App(customtkinter.CTk):
         # row 3: bottom menu bar
         menu_bar = customtkinter.CTkFrame(self.main_frame, corner_radius=15,  width=200, height=70)
         menu_bar.grid(row=3, column=1, columnspan=2, padx=10, pady=10)
+        # icons for menu bar
+        home_btn = customtkinter.CTkButton(menu_bar, width =40, height=40, image=self.home_icon, text=None, fg_color="transparent", command=self.show_dashboard)
+        home_btn.pack(side="left", padx=10, pady=10)
+        timer_btn = customtkinter.CTkButton(menu_bar, width=40, height=40, image=self.time_icon, text=None, fg_color="transparent", command=self.show_timer)
+        timer_btn.pack(side="left", padx=10, pady=10)
+        tasks_btn = customtkinter.CTkButton(menu_bar, width=40, height=40, image=self.productivity_icon, text=None, fg_color="transparent", command=self.show_tasks)
+        tasks_btn.pack(side="left", padx=10, pady=10)
+        budget_btn = customtkinter.CTkButton(menu_bar,width=40, height=40, image=self.budget_icon, text=None, fg_color="transparent", command=self.show_budget)
+        budget_btn.pack(side="left", padx=10, pady=10)
 
     # ── POINT SYSTEM ─────────────────────────────────────────
     # adding points
