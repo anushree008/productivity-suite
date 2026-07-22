@@ -100,18 +100,23 @@ class App(customtkinter.CTk):
         map_card = customtkinter.CTkFrame(self.main_frame, corner_radius=15, width=250, height=250)
         map_card.grid(row=2, column=2, padx=10, pady=10)
 
-        # row 3: bottom menu bar
-        menu_bar = customtkinter.CTkFrame(self.main_frame, corner_radius=15,  width=200, height=70)
-        menu_bar.grid(row=3, column=1, columnspan=2, padx=10, pady=10)
-        # icons for menu bar
-        home_btn = customtkinter.CTkButton(menu_bar, width =40, height=40, image=self.home_icon, text=None, fg_color="transparent", command=self.show_dashboard)
+        # bottom menu bar
+        self.menu_bar()
+
+    # ── MENU BAR ─────────────────────────────────────────
+    def menu_bar(self):
+        menu_bar = customtkinter.CTkFrame(self.main_frame, corner_radius=15, width=200, height=70)
+        menu_bar.grid(row=10, column=0, columnspan=5, pady=10)
+        home_btn = customtkinter.CTkButton(menu_bar, width=40, height=40, image=self.home_icon, text=None, fg_color="transparent", command=self.show_dashboard)
         home_btn.pack(side="left", padx=10, pady=10)
         timer_btn = customtkinter.CTkButton(menu_bar, width=40, height=40, image=self.time_icon, text=None, fg_color="transparent", command=self.show_timer)
         timer_btn.pack(side="left", padx=10, pady=10)
         tasks_btn = customtkinter.CTkButton(menu_bar, width=40, height=40, image=self.productivity_icon, text=None, fg_color="transparent", command=self.show_tasks)
         tasks_btn.pack(side="left", padx=10, pady=10)
-        budget_btn = customtkinter.CTkButton(menu_bar,width=40, height=40, image=self.budget_icon, text=None, fg_color="transparent", command=self.show_budget)
+        budget_btn = customtkinter.CTkButton(menu_bar, width=40, height=40, image=self.budget_icon, text=None, fg_color="transparent", command=self.show_budget)
         budget_btn.pack(side="left", padx=10, pady=10)
+
+
 
     # ── POINT SYSTEM ─────────────────────────────────────────
     # adding points
@@ -131,22 +136,26 @@ class App(customtkinter.CTk):
     # ── TIMER ──────────────────────────────────────────────
     def show_timer(self):
         self.clear_main()
-        customtkinter.CTkLabel(self.main_frame, text="Focus Timer", font=("Arial", 20)).pack(pady=20)
+        self.main_frame.grid_columnconfigure(0, weight=1)
+
+        customtkinter.CTkLabel(self.main_frame, text="Focus Timer", font=("Arial", 20)).grid(row=0, column=0, pady=20)
 
         self.timer_display = customtkinter.CTkLabel(self.main_frame, text="00:00", font=("Arial", 48))
-        self.timer_display.pack(pady=20)
+        self.timer_display.grid(row=1, column=0, pady=20)
 
         input_frame = customtkinter.CTkFrame(self.main_frame)
-        input_frame.pack(pady=10)
+        input_frame.grid(row=2, column=0, pady=10)
         customtkinter.CTkLabel(input_frame, text="Minutes:").pack(side="left", padx=5)
         self.timer_input = customtkinter.CTkEntry(input_frame, width=80)
         self.timer_input.pack(side="left", padx=5)
 
-        customtkinter.CTkButton(self.main_frame, text="Start", command=self.start_timer).pack(pady=10)
+        customtkinter.CTkButton(self.main_frame, text="Start", command=self.start_timer).grid(row=3, column=0, pady=10)
         self.timer_status = customtkinter.CTkLabel(self.main_frame, text="")
-        self.timer_status.pack(pady=5)
+        self.timer_status.grid(row=4, column=0, pady=5)
 
         self.timer_running = False
+
+        self.menu_bar()
 
     def start_timer(self):
         if self.timer_running:
@@ -188,10 +197,13 @@ class App(customtkinter.CTk):
     # ── TASKS ──────────────────────────────────────────────
     def show_tasks(self):
         self.clear_main()
-        customtkinter.CTkLabel(self.main_frame, text="Tasks", font=("Arial", 20)).pack(pady=20)
+        self.main_frame.grid_columnconfigure(0, weight=1)
+        self.main_frame.grid_rowconfigure(3, weight=1)
+
+        customtkinter.CTkLabel(self.main_frame, text="Tasks", font=("Arial", 20)).grid(row=0, column=0, pady=20)
 
         form = customtkinter.CTkFrame(self.main_frame)
-        form.pack(pady=10, padx=20, fill="x")
+        form.grid(row=1, column=0, pady=10, padx=20, sticky="ew")
 
         customtkinter.CTkLabel(form, text="Name:").grid(row=0, column=0, padx=5, pady=5)
         self.task_name_input = customtkinter.CTkEntry(form, width=120)
@@ -212,11 +224,13 @@ class App(customtkinter.CTk):
         customtkinter.CTkButton(form, text="Add Task", command=self.add_task).grid(row=2, column=3, padx=5, pady=5)
 
         self.task_status = customtkinter.CTkLabel(self.main_frame, text="")
-        self.task_status.pack()
+        self.task_status.grid(row=2, column=0, pady=5)
 
         self.task_list_frame = customtkinter.CTkScrollableFrame(self.main_frame)
-        self.task_list_frame.pack(fill="both", expand=True, padx=20, pady=10)
+        self.task_list_frame.grid(row=3, column=0, sticky="nsew", padx=20, pady=10)
         self.refresh_task_list()
+
+        self.menu_bar()
 
     def add_task(self):
         name = self.task_name_input.get()
@@ -309,10 +323,13 @@ class App(customtkinter.CTk):
     # ── BUDGET ─────────────────────────────────────────────
     def show_budget(self):
         self.clear_main()
-        customtkinter.CTkLabel(self.main_frame, text="Budget", font=("Arial", 20)).pack(pady=20)
+        self.main_frame.grid_columnconfigure(0, weight=1)
+        self.main_frame.grid_rowconfigure(4, weight=1)
+
+        customtkinter.CTkLabel(self.main_frame, text="Budget", font=("Arial", 20)).grid(row=0, column=0, pady=20)
 
         form = customtkinter.CTkFrame(self.main_frame)
-        form.pack(pady=10, padx=20, fill="x")
+        form.grid(row=1, column=0, pady=10, padx=20, sticky="ew")
 
         customtkinter.CTkLabel(form, text="Type:").grid(row=0, column=0, padx=5, pady=5)
         self.budget_type_input = customtkinter.CTkEntry(form, width=120)
@@ -335,13 +352,15 @@ class App(customtkinter.CTk):
         customtkinter.CTkButton(form, text="Set Budget", command=self.set_budget).grid(row=2, column=2, padx=5, pady=5)
 
         self.budget_status = customtkinter.CTkLabel(self.main_frame, text="")
-        self.budget_status.pack()
+        self.budget_status.grid(row=2, column=0, pady=5)
         self.budget_summary = customtkinter.CTkLabel(self.main_frame, text="")
-        self.budget_summary.pack(pady=5)
+        self.budget_summary.grid(row=3, column=0, pady=5)
 
         self.budget_list_frame = customtkinter.CTkScrollableFrame(self.main_frame)
-        self.budget_list_frame.pack(fill="both", expand=True, padx=20, pady=10)
+        self.budget_list_frame.grid(row=4, column=0, sticky="nsew", padx=20, pady=10)
         self.refresh_budget_list()
+
+        self.menu_bar()
 
     def set_budget(self):
         try:
@@ -446,19 +465,22 @@ class App(customtkinter.CTk):
     # ── CALENDAR ───────────────────────────────────────────
     def show_calendar(self):
         self.clear_main()
+        self.main_frame.grid_columnconfigure(0, weight=1)
         self.current_month = datetime.date.today().month
         self.current_year = datetime.date.today().year
 
         top = customtkinter.CTkFrame(self.main_frame)
-        top.pack(pady=10)
+        top.grid(row=0, column=0, pady=10)
         customtkinter.CTkButton(top, text="<", width=30, command=self.prev_month).pack(side="left", padx=5)
         self.month_label = customtkinter.CTkLabel(top, text="", font=("Arial", 20))
         self.month_label.pack(side="left", padx=20)
         customtkinter.CTkButton(top, text=">", width=30, command=self.next_month).pack(side="left", padx=5)
 
         self.cal_frame = customtkinter.CTkFrame(self.main_frame)
-        self.cal_frame.pack(pady=10)
+        self.cal_frame.grid(row=1, column=0, pady=10)
         self.refresh_calendar()
+
+        self.menu_bar()
 
     def prev_month(self):
         self.current_month -= 1
